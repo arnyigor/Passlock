@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#26316d</color>
+    <color name="colorAccent">#e91e63</color>
+    <color name="colorText">#FFFFFF</color>
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorSecondary">#757575</color>
+    <color name="colorListViewBackground">#ffffff</color>
+
+    <color name="list_row_default_bg">#ffffff</color>
+    <color name="list_row_pressed_bg">#2196F3</color>
+    <color name="list_row_selected_bg">#86d3f6</color>
+
+
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorPrimaryLight">#C5CAE9</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <!--<color name="textColorPrimary">#212121</color>-->
+    <!--<color name="colorText">#ffffff</color>-->
+    <!--<color name="titleTextColor">#ffffff</color>-->
+    <!--<color name="subtitleTextColor">#ffffff</color>-->
+    <!--<color name="editTextColor">#ffffff</color>-->
+    <!--<color name="actionMenuTextColor">#ffffff</color>-->
+</resources>

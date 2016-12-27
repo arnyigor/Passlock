@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/draw_item_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/account_image"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_folder"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#e7e7e7"/>
+
+    <ImageView
+        android:src="@drawable/ic_edit_item"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/imgEditItemFolder"
+        android:layout_margin="@dimen/input_margin"
+        android:layout_alignTop="@+id/imgRemoveItemFolder"
+        android:layout_toLeftOf="@+id/imgRemoveItemFolder" />
+
+    <ImageView
+        android:id="@+id/imgRemoveItemFolder"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_remove_item"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:id="@+id/folder_title"
+        android:text="@string/hint_title"
+        style="@style/text_items_header"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignTop="@+id/account_image"
+        android:layout_toRightOf="@+id/account_image"
+        android:layout_alignBottom="@+id/account_image"
+        android:layout_toLeftOf="@+id/imgEditItemFolder"
+        android:layout_toStartOf="@+id/imgEditItemFolder"/>
+
+</RelativeLayout>

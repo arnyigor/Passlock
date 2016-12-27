@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Passlock</string>
+    <string name="str_exit">Выход</string>
+    <string name="str_cancel">Отмена</string>
+    <string name="str_ok">@android:string/ok</string>
+    <string name="str_edt">редактировать</string>
+    <string name="str_delete_folder">удалить папку</string>
+    <string name="str_delete_bookmark">удалить закладку</string>
+    <string name="str_delete">удалить</string>
+    <string name="str_open">открыть</string>
+    <string name="str_edit">редактировать</string>
+    <string name="str_empty_link">Пустая ссылка</string>
+    <string name="str_empty_title">Пустое название</string>
+    <string name="str_bookmarks">Закладки</string>
+    <string name="action_test">Тест</string>
+    <string name="hint_title">Название</string>
+    <string name="hint_link">Ссылка</string>
+
+    <!--Drawer-->
+    <string-array name="drawer_items">
+        <item>Закладки</item>
+        <item>Синхронизация</item>
+        <item>Импорт</item>
+    </string-array>
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
+    <string name="search_hint">поиск</string>
+    <string name="empty_list">нет закладок</string>
+    <string name="str_network_not_connect">Приложение не подключено к сети</string>
+    <string name="str_back">назад</string>
+    <string name="str_parent_folder">Корневая папка</string>
+
+
+    <!--menu-->
+    <string name="str_add_bookmark">Добавить закладку</string>
+    <string name="str_add_folder">Добавить папку</string>
+    <string name="str_edit_folder">Редактировать папку</string>
+    <string name="str_edit_bookmark">Редактировать закладку</string>
+    <string name="action_settings">Настройки</string>
+
+
+</resources>
