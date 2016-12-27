@@ -37,6 +37,7 @@
     <string name="str_edit_folder">Редактировать папку</string>
     <string name="str_edit_bookmark">Редактировать закладку</string>
     <string name="action_settings">Настройки</string>
+    <string name="long_test_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis nisi doloribus facere ipsum ipsa tempore at eveniet perferendis aliquam error! Suscipit, incidunt laudantium perspiciatis tempore vel doloribus inventore reprehenderit, autem!</string>
 
 
 </resources>
