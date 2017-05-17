@@ -3,7 +3,7 @@ package com.arny.passlock.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.arny.passlock.helpers.Functions;
+import com.arny.arnylib.utils.Utility;
 
 public class Items implements Parcelable {
 
@@ -87,7 +87,7 @@ public class Items implements Parcelable {
         return "\nid=" + this.getID() + "; title=" +
                 this.getTitle() + "; link=" + this.getLink()
                 + "; parent=" + this.getParent() + "; type="
-                + this.getType() + "; dateTime = " + Functions.getInstance().getDateTime(datetime);
+                + this.getType() + "; dateTime = " + Utility.getDateTime(datetime);
     }
 
     public String getLink() {

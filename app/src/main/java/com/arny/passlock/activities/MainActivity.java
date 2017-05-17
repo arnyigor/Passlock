@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
     // ====================onCreate start=========================
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate: ---------------");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mScreenTitles = getResources().getStringArray(R.array.drawer_items);

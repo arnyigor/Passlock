@@ -12,7 +12,7 @@ import java.util.Calendar;
 
 import static com.arny.passlock.helpers.Const.ITEM_TYPE_FOLDER;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class    DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "LOG_TAG";
     // Database Info
     private static final String DATABASE_NAME = "Passlock";
