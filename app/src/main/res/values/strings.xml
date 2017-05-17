@@ -30,6 +30,16 @@
     <string name="str_back">назад</string>
     <string name="str_parent_folder">Корневая папка</string>
 
+    <!--Messages-->
+    <!--success-->
+    <string name="success.import">Импорт завершен</string>
+    <!--Errors-->
+    <string name="error.import">Ошибка импорта</string>
+    <string name="error.storage">Ошибка доступа к диску</string>
+    <string name="error.fileopen">Ошибка открытия файла</string>
+    <!--Alerts-->
+    <string name="alert.import.title">Импорт файла</string>
+    <string name="alert.import.message">При импорте все элементы в выбранной папке будут заменены</string>
 
     <!--menu-->
     <string name="str_add_bookmark">Добавить закладку</string>
@@ -39,6 +49,7 @@
     <string name="action_settings">Настройки</string>
     <string name="long_test_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis nisi doloribus facere ipsum ipsa tempore at eveniet perferendis aliquam error! Suscipit, incidunt laudantium perspiciatis tempore vel doloribus inventore reprehenderit, autem!</string>
     <string name="content_descr_image">image</string>
+    <string name="menu.action.import">Импорт</string>
 
 
 </resources>

@@ -1,11 +1,16 @@
 package com.arny.passlock.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -30,6 +35,12 @@ import com.arny.passlock.fragments.SyncFragment;
 import com.arny.passlock.helpers.Const;
 import com.arny.passlock.helpers.TitleExtractor;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -47,6 +58,16 @@ public class MainActivity extends AppCompatActivity {
     private String action, type, sharedLink;
     private Intent intent;
     ImageView user_image;
+    private static final int PICKFILE_RESULT_CODE = 1;
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 110;
+    private static final int SAVE_FILE_RESULT_CODE = 111;
+    private static String[] PERMISSIONS_STORAGE = {
+            android.Manifest.permission.READ_EXTERNAL_STORAGE,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+    Intent fileintent;
+    Element container;
 
     // ====================onCreate start=========================
     @Override
@@ -276,6 +297,16 @@ public class MainActivity extends AppCompatActivity {
         return fragment;
     }
 
+    public static boolean isExternalStorageReadOnly() {
+        String extStorageState = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState);
+    }
+
+    public static boolean isExternalStorageAvailable() {
+        String extStorageState = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(extStorageState);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -292,8 +323,159 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 Toast.makeText(context, "action_settings", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.action_import:
+                showImportDialogSD();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static boolean verifyStoragePermissions(Activity activity) {
+        int permission = ActivityCompat.checkSelfPermission(activity, android.Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+        return permission == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void showImportDialogSD() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setTitle(getString(R.string.alert_import_title));
+        alert.setMessage(getString(R.string.alert_import_message));
+        alert.setNegativeButton(getString(R.string.str_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alert.setPositiveButton(getString(R.string.str_ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    boolean mlolipop = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP;
+                    boolean permissionGranded;
+                    Log.i(TAG, "onClick: mlolipop = " + mlolipop);
+                    if (mlolipop){
+                        permissionGranded = verifyStoragePermissions(MainActivity.this);// Do something for lollipop and above versions
+                        Log.i(TAG, "onClick: permissionGranded = " + permissionGranded);
+                        if (!permissionGranded){
+                            Toast.makeText(MainActivity.this, getString(R.string.error_storage), Toast.LENGTH_SHORT).show();
+                        }else{
+                            sendOpenTypeFile();
+                        }
+                    }else{
+                        sendOpenTypeFile();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, getString(R.string.error_fileopen), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        alert.show();
+    }
+
+    private void sendOpenTypeFile() {
+        Log.i(TAG, "sendOpenTypeFile: sendOpenTypeFile");
+        fileintent = new Intent();
+        fileintent.setAction(Intent.ACTION_GET_CONTENT);
+        fileintent.addCategory(Intent.CATEGORY_OPENABLE);
+        fileintent.setType("*/*");
+        startActivityForResult(fileintent, PICKFILE_RESULT_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case PICKFILE_RESULT_CODE:
+                if (resultCode == RESULT_OK) {
+                    String FilePath = data.getData().getPath();
+                    Log.i(TAG, "onActivityResult: FilePath = " + FilePath);
+                    importFile(getBaseContext(),FilePath);
+                } else {
+                    Toast.makeText(MainActivity.this, getString(R.string.error_fileopen), Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    private Element parseBookmarkFolders(Element element){
+        Elements folders = element.select("dl");
+//        Log.i(TAG, "parseBookmarkFolders: folders.size() = " + folders.size());
+        if  (folders.size()>0){
+            for (Element el:folders ) {
+                Log.i(TAG, "parseBookmarkFolders: !!!!!!folder!!!!!!");
+                Elements dts = el.select("dt");
+                Elements ddel = el.select("dd");
+                for (Element fldr :ddel ) {
+                    String fldrTitle = fldr.select("h3").first().html();
+                    Log.i(TAG, "parseBookmarkFolders: fldrTitle = " + fldrTitle);
+                    System.out.println(fldr.select("dl").get(0));
+
+//                    if (innerFldr.size()>0){
+//                        Log.i(TAG, " !!!!!!!innerFolder!!!!!!!!!");
+//                        parseBookmarkFolders(fldr.select("dl").get(0));
+//                    }
+                }
+                for (Element dt:dts ) {
+                    Log.i(TAG, "parseBookmarkFolders: link = " + dt.select("a").toString());
+                }
+            }
+        }
+        return null;
+    }
+
+    class ParseBookmarks extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                parseBookmarkFolders(container);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+        }
+    }
+
+
+    private void importFile(Context context, String filename) {
+        if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
+            Toast.makeText(context, getString(R.string.error_storage), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            File importfile = new File("", filename);
+            Document doc = Jsoup.parse(importfile, "UTF-8");
+            container = doc.select("dl").get(1);
+            ParseBookmarks parseBookmarks = new ParseBookmarks();
+            parseBookmarks.execute();
+
+//            Elements elements = contEl.select("DL");
+//            for (Element el :elements ) {
+//                Element folderEl = el.select("h3").first();
+//                String folder = folderEl.html();
+//                Log.i(TAG, "importFile: folder =" + folder);
+//            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(context, getString(R.string.error_import), Toast.LENGTH_SHORT).show();
+        }
     }
 
     protected void onResume() {
